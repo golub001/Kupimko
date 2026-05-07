@@ -1,0 +1,83 @@
+<div class="layout">
+
+  <div class="panel left-panel">
+    <div class="sidebar">
+      <div class="sidebar-logo" routerLink="/" style="cursor:pointer">Oglasi</div>
+      <div class="sidebar-menu">
+        @if (loggedin) {
+          <a class="menu-item">
+            <i class="fa-solid fa-folder"></i> Moji oglasi
+          </a>
+          <a class="menu-item">
+            <i class="fa-solid fa-message"></i> Poruke
+          </a>
+          <a class="menu-item">
+            <i class="fa-solid fa-user"></i> Profil
+          </a>
+        } @else {
+          <a class="menu-item" routerLink="/login">
+            <i class="fa-solid fa-right-to-bracket"></i> Prijavite se
+          </a>
+          <a class="menu-item" routerLink="/register">
+            <i class="fa-solid fa-user-plus"></i> Registracija
+          </a>
+        }
+      </div>
+      <div class="sidebar-menu">
+        <a class="menu-item back-btn" routerLink="/">
+          <i class="fa-solid fa-arrow-left"></i> Nazad na oglase
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel center-panel">
+    @if (oglas) {
+      <img class="oglas-slika" [src]="oglas.image" [alt]="oglas.title" />
+      <div class="oglas-info">
+        <div class="oglas-kategorija">{{ kategorijaNaziv }}</div>
+        <h1 class="oglas-naslov">{{ oglas.title }}</h1>
+        <div class="oglas-cena">
+          {{ oglas.price | number }} {{ oglas.currency === 0 ? 'din' : '€' }}
+        </div>
+        <div class="oglas-lokacija">
+          <i class="fa-solid fa-location-dot"></i> {{ oglas.location }}
+        </div>
+        <div class="divider"></div>
+        <h3 class="sekcija-naslov">Opis</h3>
+        <p class="oglas-opis">{{ oglas.description }}</p>
+      </div>
+    } @else {
+      <div class="not-found">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <p>Oglas nije pronađen.</p>
+        <a routerLink="/" class="back-link">Vrati se na početnu</a>
+      </div>
+    }
+  </div>
+
+  <div class="panel right-panel">
+    @if (oglas) {
+      <div class="sidebar">
+        <div class="sidebar-section-title">Prodavac</div>
+        <div class="seller-card">
+          <div class="seller-avatar">
+            <i class="fa-solid fa-user"></i>
+          </div>
+          <div class="seller-name">{{ oglas.created_by }}</div>
+        </div>
+        <div class="divider"></div>
+        <div class="sidebar-section-title">Kontakt</div>
+        <a class="phone-btn" [href]="'tel:+' + oglas.phone_number">
+          <i class="fa-solid fa-phone"></i> {{ formatPhone(oglas.phone_number) }}
+        </a>
+        @if (loggedin) {
+          <button class="msg-btn">
+            <i class="fa-solid fa-message"></i> Pošalji poruku
+          </button>
+        }
+      </div>
+    }
+  </div>
+
+</div>

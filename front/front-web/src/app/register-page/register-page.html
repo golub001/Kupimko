@@ -1,0 +1,43 @@
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <h2 class="auth-title">Registracija</h2>
+    <p class="auth-subtitle">Kreirajte novi nalog</p>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Ime</label>
+        <input type="text" [(ngModel)]="ime" placeholder="Ime" class="form-input" />
+      </div>
+      <div class="form-group">
+        <label>Prezime</label>
+        <input type="text" [(ngModel)]="prezime" placeholder="Prezime" class="form-input" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" [(ngModel)]="email" placeholder="vas@email.com" class="form-input" />
+    </div>
+
+    <div class="form-group">
+      <label>Broj telefona</label>
+      <input type="tel" [(ngModel)]="phone" placeholder="+381..." class="form-input" />
+    </div>
+
+    <div class="form-group">
+      <label>Lozinka</label>
+      <input type="password" [(ngModel)]="password" placeholder="••••••••" class="form-input" />
+    </div>
+
+    <div class="form-group">
+      <label>Potvrdi lozinku</label>
+      <input type="password" [(ngModel)]="confirmPassword" placeholder="••••••••" class="form-input" />
+    </div>
+
+    <button class="auth-btn" (click)="register()">Registruj se</button>
+
+    <p class="auth-switch">
+      Već imate nalog? <a routerLink="/login">Prijavite se</a>
+    </p>
+  </div>
+</div>

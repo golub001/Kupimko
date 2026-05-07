@@ -1,0 +1,74 @@
+<div class="layout">
+
+  <div class="panel left-panel">
+    <div class="sidebar">
+      <div class="sidebar-logo">Oglasi</div>
+      <div class="sidebar-menu">
+        @if (loggedin) {
+          <a class="menu-item">
+            <i class="fa-solid fa-folder"></i> Moji oglasi
+          </a>
+          <a class="menu-item">
+            <i class="fa-solid fa-message"></i> Poruke
+          </a>
+          <a class="menu-item">
+            <i class="fa-solid fa-user"></i> Profil
+          </a>
+        } @else {
+          <a class="menu-item" routerLink="/login">
+            <i class="fa-solid fa-right-to-bracket"></i> Prijavite se
+          </a>
+          <a class="menu-item" routerLink="/register">
+            <i class="fa-solid fa-user-plus"></i> Registracija
+          </a>
+        }
+      </div>
+      <div class="sidebar-section-title">Kategorije</div>
+      <div class="sidebar-menu">
+        @for (kat of kategorije; track kat.id) {
+          <a class="menu-item" [class.active]="kat.selektovana" (click)="toggleKategorija(kat.id)">
+            {{ kat.name }}
+          </a>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="panel center-panel">
+    <div class="page-header">
+      <h2 class="page-title">Novi oglasi</h2>
+      <span class="oglas-count">{{ oglasi.length }} oglasa</span>
+    </div>
+    <div class="oglasi-lista">
+      @for (oglas of oglasi; track oglas.id) {
+        <div class="oglas-card" [routerLink]="['/oglas', oglas.id]">
+          <img class="oglas-img" [src]="oglas.image" [alt]="oglas.title" />
+          <div class="oglas-body">
+            <h3 class="oglas-title">{{ oglas.title }}</h3>
+            <p class="oglas-desc">{{ oglas.description | slice:0:120 }}...</p>
+            <div class="oglas-meta">
+              <span class="oglas-lokacija">📍 {{ oglas.location }}</span>
+              <span class="oglas-cena">{{ oglas.price | number }} {{ oglas.currency === 0 ? 'din' : '€' }}</span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="panel right-panel">
+    <div class="sidebar">
+      <div class="sidebar-section-title">Pretraga</div>
+      <input class="search-input" type="text" placeholder="Pretraži oglase..." />
+      <div class="sidebar-section-title" style="margin-top: 20px;">Lokacija</div>
+      <input class="search-input" type="text" placeholder="Grad..." />
+      <div class="sidebar-section-title" style="margin-top: 20px;">Cena</div>
+      <div class="price-range">
+        <input class="search-input half" type="number" placeholder="Od" />
+        <input class="search-input half" type="number" placeholder="Do" />
+      </div>
+      <button class="search-btn">Pretraži</button>
+    </div>
+  </div>
+
+</div>
