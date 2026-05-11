@@ -15,8 +15,8 @@ namespace Backend.Controllers
             _service = service;
         }
 
-        [HttpPost("/api/insert")]
-        public async Task<IActionResult> Insert([FromBody] CreateAdDto dto) {
+        [HttpPost("insert")]
+        public async Task<IActionResult> Insert([FromForm] CreateAdDto dto) {
             return Ok(await _service.InsertAdAsync(dto));
         }
         [HttpGet]
@@ -24,7 +24,7 @@ namespace Backend.Controllers
         {
             return Ok(await _service.GetAll());
         }
-        [HttpDelete("/api/delete/{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(string id)
         {
             var deleted=await _service.DeleteAsync(id);

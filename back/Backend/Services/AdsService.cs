@@ -14,6 +14,7 @@ namespace Backend.Services
 
         public async Task<Ad> InsertAdAsync(CreateAdDto dto)
         {
+            var imageUrl = await SaveImageAsync(dto.Image);
             var ad = new Ad
             {
                 Title = dto.Title,
@@ -21,7 +22,7 @@ namespace Backend.Services
                 Price = dto.Price,
                 CategoryId = dto.CategoryId,
                 SellerId = dto.SellerId,
-                Image = dto.Image,
+                Image=imageUrl,
                 Location = dto.Location
             };
             return await _repo.CreateAdAsync(ad);
@@ -37,6 +38,27 @@ namespace Backend.Services
         public async Task<Boolean> UpdateAd(string id, UpdateAdDto dto)
         {
             return await _repo.UpdateAsync(id, dto);
+        }
+
+
+        private async Task<string> SaveImageAsync(IFormFile file)
+        {
+            var extension = Path.GetExtension(file.FileName);//vadim ekstenziju
+            var uniqueName = $"{Guid.NewGuid()}{extension}"; //generisanje random imena unique
+
+            var uploadsFolder = Path.Combine(
+                Directory.GetCurrentDirectory(),
+                "wwwroot",
+                "uploads");
+            Directory.CreateDirectory(uploadsFolder);
+
+            var filePath = Path.Combine(uploadsFolder, uniqueName);
+
+            using var stream = new FileStream(filePath, FileMode.Create);
+
+            await file.CopyToAsync(stream);
+
+            return $"https://localhost:7123/uploads/{uniqueName}";
         }
     }
 }
