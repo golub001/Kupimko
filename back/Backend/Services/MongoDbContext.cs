@@ -17,8 +17,8 @@ namespace Backend.Services
         public IMongoCollection<Category> Categories =>
             _database.GetCollection<Category>("categories");
 
-        
-
+        public IMongoCollection<User> Users => _database.GetCollection<User>("users");
+        public IMongoCollection<Ad> Ads => _database.GetCollection<Ad>("ads");
     }
 }
 

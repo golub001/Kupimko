@@ -1,12 +1,20 @@
+using Backend.Repositories;
 using Backend.Services;
 using Backend.Settings;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<MongoDbSettings>(
     builder.Configuration.GetSection("MongoDbSettings")
 );
+builder.Services.AddScoped<AdsRepository>();
+builder.Services.AddScoped<AdsService>();
+builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<CategoryRepository>();
 //asd
 builder.Services.AddSingleton<MongoDbContext>();
 // Add services to the container.
