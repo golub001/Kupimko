@@ -15,17 +15,26 @@ namespace Backend.Services
         public async Task<Ad> InsertAdAsync(CreateAdDto dto)
         {
             var imageUrl = await SaveImageAsync(dto.Image);
-            var ad = new Ad
+
+            try
             {
-                Title = dto.Title,
-                Description = dto.Description,
-                Price = dto.Price,
-                CategoryId = dto.CategoryId,
-                SellerId = dto.SellerId,
-                Image=imageUrl,
-                Location = dto.Location
-            };
-            return await _repo.CreateAdAsync(ad);
+                var ad = new Ad
+                {
+                    Title = dto.Title,
+                    Description = dto.Description,
+                    Price = dto.Price,
+                    CategoryId = dto.CategoryId,
+                    SellerId = dto.SellerId,
+                    Image = imageUrl,
+                    Location = dto.Location
+                };
+                return await _repo.CreateAdAsync(ad);
+            }
+            catch (Exception ex)
+            {
+                DeleteImage(imageUrl);
+                throw;
+            }
         }
         public  async Task<List<Ad>> GetAll()
         {
@@ -59,6 +68,20 @@ namespace Backend.Services
             await file.CopyToAsync(stream);
 
             return $"https://localhost:7123/uploads/{uniqueName}";
+        }
+        private void DeleteImage(string imageUrl)
+        {
+            var filename=Path.GetFileName(imageUrl);
+
+            var filePath = Path.Combine(
+                Directory.GetCurrentDirectory(),
+                "wwwroot", "uploads",
+                filename
+            );
+
+            if (File.Exists(filePath){
+                File.Delete(filePath);
+            }
         }
     }
 }
