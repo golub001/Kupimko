@@ -1,12 +1,11 @@
 export interface Oglas {
-    id:number,
-    title:string,
-    description:string,
-    phone_number:number,
-    created_by:string,
-    price:number,
-    currency:number,
-    image:string,
-    category:number,
-    location:string
+    id: string,
+    title: string,
+    description: string,
+    price: number,
+    categoryId: string,
+    sellerId: string,
+    image: string,
+    location: string,
+    createdAt: string
 }

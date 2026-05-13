@@ -5,11 +5,12 @@ namespace Backend.Services
 {
     public class UserService
     {
-        private UserRepository _repo;
-
-        public UserService(UserRepository repo)
+        private readonly UserRepository _repo;
+        private readonly JwtService _jwtService;
+        public UserService(UserRepository repo,JwtService jwt)
         {
             _repo = repo;
+            _jwtService = jwt;
         }
         public async Task<User?> addUser(CreateUserDto dto)
         {
@@ -24,7 +25,7 @@ namespace Backend.Services
             };
             return await _repo.CreateAsync(user);
         }
-        public async Task<User> login(LoginUserDto dto)
+        public async Task<string?> login(LoginUserDto dto)
         {
             var user=await _repo.GetUserByUserNameAsync(dto.UserName);
 
@@ -32,7 +33,7 @@ namespace Backend.Services
 
             bool valid=BCrypt.Net.BCrypt.Verify(dto.Password,user.Password);
 
-            if (valid) return user;
+            if (valid) return _jwtService.GenerateToken(user);
 
             return null;
         }

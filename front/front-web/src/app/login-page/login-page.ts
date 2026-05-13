@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { Api } from '../services/api';
 
 @Component({
   selector: 'app-login-page',
@@ -9,10 +10,24 @@ import { RouterLink } from '@angular/router';
   styleUrl: './login-page.css',
 })
 export class LoginPage {
-  email: string = '';
+  username: string = '';
   password: string = '';
 
+  constructor(private api:Api,private router:Router){
+
+  }
+
+
   login() {
-    console.log(this.email, this.password);
+    this.api.login(this.username,this.password).subscribe({
+      next:(response:string)=>{
+        console.log(response);
+        localStorage.setItem("token",response);
+        this.router.navigate(["/"])
+      },
+      error:(error)=>{
+        console.log("Neuspesan login" + error.message);
+      }
+    })
   }
 }

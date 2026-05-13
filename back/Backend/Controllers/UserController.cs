@@ -27,10 +27,10 @@ namespace Backend.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginUserDto dto)
         {
-            var user = await _service.login(dto);
-            if (user == null) return Unauthorized("Pogresan email ili password");
+            var token = await _service.login(dto);
+            if (token == null) return Unauthorized("Pogresan email ili password");
 
-            return Ok(user);
+            return Ok(new { token });
         }
     }
 }

@@ -36,6 +36,19 @@ namespace Backend.Services
                 throw;
             }
         }
+        public async Task<PagedResult<Ad>> SearchAsync(
+            string? query, string? location, int? minPrice, int? maxPrice, int page, int pageSize)
+        {
+            var (items, total) = await _repo.SearchAsync(query, location, minPrice, maxPrice, page, pageSize);
+            return new PagedResult<Ad>
+            {
+                Items = items,
+                Total = (int)total,
+                Page = page,
+                TotalPages = (int)Math.Ceiling((double)total / pageSize)
+            };
+        }
+
         public  async Task<List<Ad>> GetAll()
         {
             return await _repo.GetAll();
@@ -67,7 +80,7 @@ namespace Backend.Services
 
             await file.CopyToAsync(stream);
 
-            return $"https://localhost:7123/uploads/{uniqueName}";
+            return $"http://localhost:5026/uploads/{uniqueName}";
         }
         private void DeleteImage(string imageUrl)
         {
@@ -79,9 +92,11 @@ namespace Backend.Services
                 filename
             );
 
-            if (File.Exists(filePath){
+            if (File.Exists(filePath))
+            {
                 File.Delete(filePath);
             }
+            
         }
     }
 }

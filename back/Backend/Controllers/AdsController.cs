@@ -1,5 +1,6 @@
 ﻿using Backend.DTO;
 using Backend.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,18 @@ namespace Backend.Controllers
         public async Task<IActionResult> Insert([FromForm] CreateAdDto dto) {
             return Ok(await _service.InsertAdAsync(dto));
         }
+        [HttpGet("search")]
+        public async Task<IActionResult> Search(
+            [FromQuery] string? query,
+            [FromQuery] string? location,
+            [FromQuery] int? minPrice,
+            [FromQuery] int? maxPrice,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10)
+        {
+            return Ok(await _service.SearchAsync(query, location, minPrice, maxPrice, page, pageSize));
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {

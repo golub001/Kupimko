@@ -35,7 +35,7 @@
     @if (oglas) {
       <img class="oglas-slika" [src]="oglas.image" [alt]="oglas.title" />
       <div class="oglas-info">
-        <div class="oglas-kategorija">{{ kategorijaNaziv }}</div>
+        <div class="oglas-kategorija"></div>
         <h1 class="oglas-naslov">{{ oglas.title }}</h1>
         <div class="oglas-cena">
           {{ oglas.price | number }} {{ oglas.currency === 0 ? 'din' : '€' }}

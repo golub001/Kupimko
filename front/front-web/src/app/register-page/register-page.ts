@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Route, Router, RouterLink } from '@angular/router';
+import { Api } from '../services/api';
 
 @Component({
   selector: 'app-register-page',
@@ -9,14 +10,19 @@ import { RouterLink } from '@angular/router';
   styleUrl: './register-page.css',
 })
 export class RegisterPage {
-  ime: string = '';
-  prezime: string = '';
-  email: string = '';
-  phone: string = '';
-  password: string = '';
-  confirmPassword: string = '';
+  username:string="";
+  password:string=""
+
+  constructor(private api:Api,private router:Router){
+
+  }
 
   register() {
-    console.log(this.ime, this.prezime, this.email, this.phone, this.password);
+    this.api.register(this.username,this.password).subscribe({
+      next:(response:string)=>{
+        localStorage.setItem("token",response);
+        this.router.navigate(["/"])
+      }
+    })
   }
 }
